@@ -72,7 +72,7 @@ The model used an adam optimizer, so the learning rate was not tuned manually (m
 
 #### 4. Appropriate training data
 
-Training data was chosen to keep the vehicle driving on the road. Initially, I attempted training the model myself (by running the simulator in training mode) and applying a combination of the following techniques: center lane driving, recovering from the left and right sides of the road, and driving in the opposite direction.
+Training data was chosen to keep the vehicle driving on the road. Initially, I attempted collecting the training data myself (by running the simulator in training mode) and applying a combination of the following techniques: center lane driving, recovering from the left and right sides of the road, and driving in the opposite direction.
 
 Then after several of these attempts without a satisfying outcome, I decided to use the training data provided by Udacity. It proved good enough for me, and it actually saved me a tremendous amount of time, as transferring the training data (as ZIP archive) from my local machine to my AWS-GPU instance (where I run the training script model.py) was very slow. Hence, defeating the purpose of using an AWS-GPU instance for speeding up the training process in the first place!
 
@@ -130,11 +130,11 @@ Then, I tried adding left and right camera images with a steering correction of 
 ![alt text][image3]
 ![alt text][image4]
 
-After the collection process (using the Udacity data set), I had 8036 number of data points. I initially randomly shuffled the data set and put 20% of the data into a validation set. 
+After the collection process (using the Udacity data set), I had 8036 data points. I initially randomly shuffled the data set and put 20% of the data into a validation set. 
 
 Then I trimmed the images to the drivable portion of the road, by cropping 60 pixels from the top (for trees, sky, etc.) and 20 pixels from the bottom (for steering while). This helped the model focus on the drivable portion of the road, hence improved the training process.
 
-Finally, I preprocessed this data by normalizing it to the range [-1, 1] with zero mean by applying the formula: x = x/127.5 - 1.
+Finally, I preprocessed this data by normalizing it to the range [-1, 1] with zero mean by applying the formula ```x = x/127.5 - 1```.
 
 I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 2 as evidenced by the following chart.
 
@@ -146,4 +146,4 @@ In addition, I used a generator function that returns data to the Keras' fit_gen
 
 I used an AWS instance with a GPU to train the model, then downloaded the saved model (model.h5) to my local machine.
 
-Finally, I created the autonomous driving video by running the simulator in autonomous mode in parallel with ```python drive.py model.h5 run1```, then running ```python video.py run1 --fps=40```. This created the output video (renamed to video.mp4). [Notice I used 40 fps for a better observation of the car behavior].
+Finally, I created the autonomous driving video by running the simulator in autonomous mode in parallel with ```python drive.py model.h5 run1```, then running ```python video.py run1 --fps=40```. This created the output video (which I later renamed to video.mp4). Notice I used 40 fps for a better observation of the car behavior.
